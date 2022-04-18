@@ -3,7 +3,8 @@ package com.example.kotlinweathergr1919.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinweathergr1919.databinding.ActivityMainBinding
-import com.example.kotlinweathergr1919.view.main.MainFragment
+import com.example.kotlinweathergr1919.view.details.DetailsFragment
+import com.example.kotlinweathergr1919.view.weatherlist.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +15,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
         if(savedInstanceState == null)
             supportFragmentManager.beginTransaction()
-                .replace(binding.root.id, MainFragment.newInstance()).commit()
+                .replace(binding.root.id, WeatherListFragment.newInstance()).commit()
     }
 }

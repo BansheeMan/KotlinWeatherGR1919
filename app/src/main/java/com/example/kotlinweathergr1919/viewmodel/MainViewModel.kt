@@ -14,19 +14,26 @@ class MainViewModel(
         return liveData
     }
 
-    fun getWeather() = getDataFromLocalSource()
+    fun getWeatherRussia() = getWeather(true)
+    fun getWeatherWorld() = getWeather(false)
 
-    private fun getDataFromLocalSource() {
+    private fun getWeather(isRussian: Boolean) {
         liveData.value = AppState.Loading
-        when((0..1).random()) {
-            1 -> outputSuccess()
-            0 -> outputError()
+        when ((0..1).random()) {
+            0 -> outputSuccess(isRussian)
+            1 -> outputError()
         }
     }
 
-    private fun outputSuccess() = Thread {
+    private fun outputSuccess(isRussian: Boolean) = Thread {
         sleep(1000)
-        liveData.postValue(AppState.Success(repository.getWeatherFromLocalStorage()))
+        liveData.postValue(
+            if (isRussian) {
+                AppState.Success(repository.getRussianWeatherFromLocalStorage())
+            } else {
+                AppState.Success(repository.getWorldWeatherFromLocalStorage())
+            }
+        )
     }.start()
 
     private fun outputError() = Thread {
