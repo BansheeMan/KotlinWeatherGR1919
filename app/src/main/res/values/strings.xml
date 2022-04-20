@@ -4,6 +4,11 @@
     <string name="feels_like_label">Ощущается как</string>
     <string name="city_coordinates">lt/ln: %s, %s"</string>
     <string name="reload">Обновить</string>
-    <string name="error">Error</string>
+    <string name="error">ERROR\n\</string>
+    <string name="request_502">502 BAD REQUEST Попробуйте еще раз</string>
+    <string name="setup_location">setup Location</string>
+    <string name="err_snack">%s %s"</string>
+
+
 
 </resources>

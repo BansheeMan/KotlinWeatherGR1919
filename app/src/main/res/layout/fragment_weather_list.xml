@@ -21,7 +21,8 @@
         app:maxImageSize="56dp"
         app:tint="@null"
         android:layout_margin="20dp"
-        android:src="@drawable/ic_russia"/>
+        android:src="@drawable/ic_russia"
+        android:contentDescription="@string/setup_location" />
 
     <FrameLayout
         android:id="@+id/loadingLayout"

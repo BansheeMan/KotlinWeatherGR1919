@@ -6,4 +6,5 @@
     <dimen name="feels_like_text_size">30sp</dimen>
     <dimen name="cityTextSize">35sp</dimen>
     <dimen name="margin_5_dp">5dp</dimen>
+    <dimen name="snack_width">1500dp</dimen>
 </resources>

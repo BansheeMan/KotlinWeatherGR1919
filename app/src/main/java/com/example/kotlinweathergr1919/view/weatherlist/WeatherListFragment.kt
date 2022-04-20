@@ -16,6 +16,7 @@ import com.example.kotlinweathergr1919.view.details.DetailsFragment
 import com.example.kotlinweathergr1919.viewmodel.AppState
 import com.example.kotlinweathergr1919.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_weather_list.*
 
 class WeatherListFragment : Fragment(), OnItemListClickListener {
 
@@ -56,12 +57,11 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
 
     private fun setFAB() {
         binding.floatingActionButton.setOnClickListener {
-            isRussian = !isRussian
-            setReloadContent(isRussian)
+            isRussian = !isRussian.also { setReloadContent(it) }
         }
     }
 
-    private fun setReloadContent(isRussian: Boolean){
+    private fun setReloadContent(isRussian: Boolean) {
         if (isRussian) {
             viewModel.getWeatherRussia()
             binding.floatingActionButton.setImageDrawable(
@@ -84,14 +84,10 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
     private fun renderData(data: AppState) {
         when (data) {
             is AppState.Error -> {
-                Snackbar
-                    .make(
-                        binding.floatingActionButton,
-                        getString(R.string.error),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    .setAction(getString(R.string.reload)) {  setReloadContent(isRussian) }
-                    .show()
+                val trouble = data.error.stackTraceToString()
+                loadingLayout.showSnackBar(trouble, R.string.reload) {
+                    setReloadContent(isRussian)
+                }
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -103,18 +99,37 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
         }
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = WeatherListFragment()
     }
 
     override fun onItemClick(weather: Weather) {
-        val bundle = Bundle()
-        bundle.putParcelable(KEY_BUNDLE_WEATHER, weather)
         requireActivity().supportFragmentManager.beginTransaction().add(
             R.id.container,
-            DetailsFragment.newInstance(bundle)
+            DetailsFragment.newInstance(Bundle().apply {
+                putParcelable(KEY_BUNDLE_WEATHER, weather)
+            })
         ).addToBackStack("").commit()
     }
 }
+
+fun View.showSnackBar(text: String?, actionText: Int, action: (View) -> Unit) {
+    text?.let {
+        Snackbar.make(this, it, Snackbar.LENGTH_INDEFINITE).run {
+            setBackgroundTint(ContextCompat.getColor(context, R.color.black))
+            setTextColor(ContextCompat.getColor(context, R.color.yellow_v2))
+            setText(it)
+            action(actionText, R.color.red, action)
+            show()
+        }
+    }
+}
+
+fun Snackbar.action(action: Int, color: Int, listener: (View) -> Unit) {
+    setActionTextColor(ContextCompat.getColor(context, color))
+    setAction(action, listener)
+
+}
+
+

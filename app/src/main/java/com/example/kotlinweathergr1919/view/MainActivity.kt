@@ -3,7 +3,6 @@ package com.example.kotlinweathergr1919.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinweathergr1919.databinding.ActivityMainBinding
-import com.example.kotlinweathergr1919.view.details.DetailsFragment
 import com.example.kotlinweathergr1919.view.weatherlist.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {

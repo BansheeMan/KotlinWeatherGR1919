@@ -38,6 +38,6 @@ class MainViewModel(
 
     private fun outputError() = Thread {
         sleep(1000)
-        liveData.postValue(AppState.Error(Exception("502 Bad Gateway")))
+        liveData.postValue(AppState.Error(IllegalAccessException()))
     }.start()
 }
