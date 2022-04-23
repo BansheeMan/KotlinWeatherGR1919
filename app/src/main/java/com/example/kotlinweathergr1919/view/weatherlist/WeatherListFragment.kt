@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentWeatherListBinding
-import com.example.kotlinweathergr1919.repository.Weather
+import com.example.kotlinweathergr1919.repository.entities.Weather
 import com.example.kotlinweathergr1919.utils.KEY_BUNDLE_WEATHER
 import com.example.kotlinweathergr1919.view.details.DetailsFragment
 import com.example.kotlinweathergr1919.viewmodel.AppState

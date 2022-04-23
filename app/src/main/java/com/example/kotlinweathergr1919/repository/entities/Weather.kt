@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.repository
+package com.example.kotlinweathergr1919.repository.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
