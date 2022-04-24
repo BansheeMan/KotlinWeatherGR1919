@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentDetailsBinding
 import com.example.kotlinweathergr1919.repository.OnServersResponse
-import com.example.kotlinweathergr1919.repository.entities.Weather
 import com.example.kotlinweathergr1919.repository.WeatherLoader
+import com.example.kotlinweathergr1919.repository.entities.Weather
 import com.example.kotlinweathergr1919.repository.entitiesDTO.WeatherDTO
 import com.example.kotlinweathergr1919.utils.KEY_BUNDLE_WEATHER
+import com.example.kotlinweathergr1919.view.weatherlist.showSnackBar
+import com.example.kotlinweathergr1919.viewmodel.ResponseState
 
 class DetailsFragment : Fragment(), OnServersResponse {
 
@@ -43,9 +45,9 @@ class DetailsFragment : Fragment(), OnServersResponse {
         }
     }
 
-    private fun renderData(weatherDTO: WeatherDTO) {
+    private fun renderDataSuccess(weatherDTO: WeatherDTO) {
         with(binding) {
-            progressBar.visibility = View.GONE
+            //progressBar.visibility = View.GONE
             cityName.text = currentCityName
             temperatureValue.text = weatherDTO.fact.temperature.toString()
             feelsLikeValue.text = weatherDTO.fact.feelsLike.toString()
@@ -54,6 +56,18 @@ class DetailsFragment : Fragment(), OnServersResponse {
                 weatherDTO.info.lat.toString(),
                 weatherDTO.info.lon.toString()
             )
+        }
+    }
+
+    private fun renderDataError(responseCode: Int) {
+        with(binding) {
+            cityName.text = if (responseCode in 400..499) {
+                getString(R.string.client_error)
+            } else getString(R.string.server_error)
+            temperatureValue.text = getString(R.string.sad_man)
+            feelsLikeValue.text = getString(R.string.don_not_know)
+            temperatureLabel.visibility = View.INVISIBLE
+            feelsLikeLabel.visibility = View.INVISIBLE
         }
     }
 
@@ -66,7 +80,30 @@ class DetailsFragment : Fragment(), OnServersResponse {
         }
     }
 
-    override fun onResponse(weatherDTO: WeatherDTO) {
-        renderData(weatherDTO)
+    override fun onResponse(responseState: ResponseState) {
+        when (responseState) {
+            is ResponseState.Success -> {
+                renderDataSuccess(responseState.weatherDTO)
+            }
+            is ResponseState.Errors -> {
+                renderDataError(responseState.responseCode)
+                binding.mainView.showSnackBar(responseState.responseCodeAndMessage, R.string.back) {
+                    activity?.onBackPressed()
+                }
+            }
+            is ResponseState.ErrorRanOutOfRequests -> {
+                renderDataError(responseState.responseCode)
+                with(binding) {
+                    mainView.showSnackBar(
+                        getString(responseState.responseCodeAndMessage),
+                        R.string.exit
+                    ) {
+                        activity?.finish()
+                    }
+                    temperatureLabel.text = getText(R.string.too_much_request_today)
+                    temperatureLabel.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 }
