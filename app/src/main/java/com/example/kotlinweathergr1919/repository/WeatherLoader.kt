@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.kotlinweathergr1919.BuildConfig
 import com.example.kotlinweathergr1919.repository.entitiesDTO.WeatherDTO
+import com.example.kotlinweathergr1919.utils.KEY_WEATHER_API
 import com.example.kotlinweathergr1919.viewmodel.ResponseState
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -23,7 +24,7 @@ class WeatherLoader(private val onServersResponse: OnServersResponse) {
         val urlConnection: HttpURLConnection = (uri.openConnection() as HttpURLConnection).apply {
             connectTimeout = 1000
             readTimeout = 1000
-            addRequestProperty("X-Yandex-API-Key", BuildConfig.WEATHER_API_KEY)
+            addRequestProperty(KEY_WEATHER_API, BuildConfig.WEATHER_API_KEY)
         }
 
         Thread {
@@ -57,13 +58,11 @@ class WeatherLoader(private val onServersResponse: OnServersResponse) {
                 }
             } catch (e: SocketTimeoutException) {
                 Handler(Looper.getMainLooper()).post {
-                    Handler(Looper.getMainLooper()).post {
-                        onServersResponse.onResponse(
-                            ResponseState.Errors(
-                                responseCodeAndMessage = "Timeout is over..."
-                            )
+                    onServersResponse.onResponse(
+                        ResponseState.Errors(
+                            responseCodeAndMessage = "Timeout is over..."
                         )
-                    }
+                    )
                 }
             } finally {
                 urlConnection.disconnect()
