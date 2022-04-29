@@ -19,9 +19,9 @@ class MainViewModel(
 
     private fun getWeather(isRussian: Boolean) {
         liveData.value = AppState.Loading
-        when ((0..1).random()) {
-            0 -> outputSuccess(isRussian)
-            1 -> outputError()
+        when ((0..3).random()) {
+            in 0..2 -> { outputSuccess(isRussian) }
+            3 -> outputError()
         }
     }
 

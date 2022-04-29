@@ -1,17 +1,22 @@
 package com.example.kotlinweathergr1919.view.details
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentDetailsBinding
+import com.example.kotlinweathergr1919.repository.DetailsService
 import com.example.kotlinweathergr1919.repository.OnServersResponse
-import com.example.kotlinweathergr1919.repository.WeatherLoader
 import com.example.kotlinweathergr1919.repository.entities.Weather
 import com.example.kotlinweathergr1919.repository.entitiesDTO.WeatherDTO
-import com.example.kotlinweathergr1919.utils.KEY_BUNDLE_WEATHER
+import com.example.kotlinweathergr1919.utils.*
 import com.example.kotlinweathergr1919.view.weatherlist.showSnackBar
 import com.example.kotlinweathergr1919.viewmodel.ResponseState
 
@@ -26,6 +31,37 @@ class DetailsFragment : Fragment(), OnServersResponse {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(receiver)
+    }
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let { intents ->
+                when (intents.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
+                    KEY_BUNDLE_SERVICE_BROADCAST_WEATHER -> {
+                        intents.getParcelableExtra<WeatherDTO>(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)
+                            ?.let {
+                                onResponse(ResponseState.Success(it))
+                            }
+                    }
+                    KEY_BUNDLE_SERVICE_BROADCAST_ERROR -> {
+                        val messageError : String? = intents.getStringExtra(KEY_BUNDLE_SERVICE_BROADCAST_ERROR)
+                        val codeError = intents.getIntExtra(KEY_BUNDLE_SERVICE_BROADCAST_ERROR, 503)
+                        onResponse(ResponseState.Errors(codeError, messageError.toString()))
+                    }
+                    KEY_BUNDLE_SERVICE_BROADCAST_ERROR_RAN_OUT_OF_REQUEST -> {
+                        onResponse(ResponseState.ErrorRanOutOfRequests())
+                    }
+                    KEY_BUNDLE_SERVICE_BROADCAST_ERROR_OTHER -> {
+                        val messageError : String? = intents.getStringExtra(KEY_BUNDLE_SERVICE_BROADCAST_ERROR_OTHER)
+                        onResponse(ResponseState.Errors(responseCodeAndMessage = messageError.toString()))
+                    }
+                    else -> {
+                        onResponse(ResponseState.Errors())
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -39,15 +75,26 @@ class DetailsFragment : Fragment(), OnServersResponse {
     private lateinit var currentCityName: String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            receiver,
+            IntentFilter(KEY_WAVE_SERVICE_BROADCAST)
+        )
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let {
             currentCityName = it.city.name
-            WeatherLoader(this).loadWeather(it.city.lat, it.city.lon)
+            requireActivity().startService(
+                Intent(
+                    requireContext(),
+                    DetailsService::class.java
+                ).apply {
+                    putExtra(KEY_BUNDLE_LAT, it.city.lat)
+                    putExtra(KEY_BUNDLE_LON, it.city.lon)
+                }
+            )
         }
     }
 
     private fun renderDataSuccess(weatherDTO: WeatherDTO) {
         with(binding) {
-            //progressBar.visibility = View.GONE
             cityName.text = currentCityName
             temperatureValue.text = weatherDTO.fact.temperature.toString()
             feelsLikeValue.text = weatherDTO.fact.feelsLike.toString()
@@ -98,7 +145,7 @@ class DetailsFragment : Fragment(), OnServersResponse {
                         getString(responseState.responseCodeAndMessage),
                         R.string.exit
                     ) {
-                        activity?.finish()
+                        requireActivity().finish()
                     }
                     temperatureLabel.text = getText(R.string.too_much_request_today)
                     temperatureLabel.visibility = View.VISIBLE
