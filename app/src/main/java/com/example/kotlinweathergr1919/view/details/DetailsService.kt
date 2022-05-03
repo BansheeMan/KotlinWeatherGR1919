@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.repository
+package com.example.kotlinweathergr1919.view.details
 
 import android.app.IntentService
 import android.content.Intent
@@ -23,13 +23,13 @@ class DetailsService(val name: String = "") : IntentService(name) {
             val lon = it.getDoubleExtra(KEY_BUNDLE_LON, 0.0)
             val lat = it.getDoubleExtra(KEY_BUNDLE_LAT, 0.0)
 
-            val urlText = "$SERVER_ANDREY$YANDEX_REQUEST$LAT$lat$LON$lon"
+            val urlText = "$SERVER_ANDREY$YANDEX_ENDPOINT$LAT$lat&$LON$lon"
             val uri = URL(urlText)
             val urlConnection: HttpURLConnection =
                 (uri.openConnection() as HttpURLConnection).apply {
                     connectTimeout = 1000
                     readTimeout = 1000
-                    addRequestProperty(KEY_WEATHER_API, BuildConfig.WEATHER_API_KEY)
+                    addRequestProperty(YANDEX_WEATHER_API, BuildConfig.WEATHER_API_KEY)
                 }
             try {
                 val responseCode = urlConnection.responseCode

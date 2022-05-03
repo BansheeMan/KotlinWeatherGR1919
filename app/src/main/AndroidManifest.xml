@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".repository.DetailsService"/>
+        <service android:name=".view.details.DetailsService"/>
     </application>
 
 </manifest>

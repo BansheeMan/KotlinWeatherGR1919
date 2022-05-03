@@ -10,12 +10,13 @@
     <string name="err_snack">%s %s"</string>
     <string name="back">BACK</string>
     <string name="exit">EXIT</string>
-    <string name="client_error">Клиентская ошибка</string>
-    <string name="server_error">Ошибка сервера</string>
+    <string name="client_error">Client Error</string>
+    <string name="server_error">Server Error</string>
+    <string name="unknown_error">Unknown Error</string>
     <string name="forbidden_try_tomorrow">403 Forbidden\nСмените тариф, либо попробуйте завтра</string>
     <string name="too_much_request_today">Вероятно, у вас закончилось 50 бесплатных запросов, вы можете:\n-сменить тариф,\n-поменять ключ\n-продолжить завтра</string>
     <string name="yandex_api">X-Yandex-API-Key</string>
-    <string name="sad_man">Упс!!! =(((((</string>
+    <string name="sad_man">Oops…!!! =(((((</string>
     <string name="don_not_know">¯\_(ツ)_/¯</string>
 
 

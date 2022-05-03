@@ -116,7 +116,7 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
 
 fun View.showSnackBar(text: String?, actionText: Int, action: (View) -> Unit) {
     text?.let {
-        Snackbar.make(this, it, Snackbar.LENGTH_INDEFINITE).run {
+        Snackbar.make(this, it, Snackbar.LENGTH_SHORT).run {
             setBackgroundTint(ContextCompat.getColor(context, R.color.black))
             setTextColor(ContextCompat.getColor(context, R.color.yellow_v2))
             setText(it)

@@ -1,11 +1,12 @@
 package com.example.kotlinweathergr1919.utils
 
 const val KEY_BUNDLE_WEATHER = "KEY_BUNDLE_WEATHER"
-const val KEY_WEATHER_API = "X-Yandex-API-Key"
+const val YANDEX_WEATHER_API = "X-Yandex-API-Key"
 const val SERVER_ANDREY = "http://212.86.114.27/"
-const val YANDEX_REQUEST = "v2/informers?"
+const val YANDEX_DOMAIN = "https://api.weather.yandex.ru/"
+const val YANDEX_ENDPOINT = "v2/informers?"
 const val LAT = "lat="
-const val LON = "&lon="
+const val LON = "lon="
 
 const val KEY_BUNDLE_LON = "KEY_BUNDLE_LON"
 const val KEY_BUNDLE_LAT = "KEY_BUNDLE_LAT"
