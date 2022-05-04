@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.repository.entitiesDTO
+package com.example.kotlinweathergr1919.facade.entitiesDTO
 
 
 import android.os.Parcelable
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Part(
+data class Fact(
     @SerializedName("condition")
     val condition: String,
     @SerializedName("daytime")
@@ -17,26 +17,18 @@ data class Part(
     val humidity: Int,
     @SerializedName("icon")
     val icon: String,
-    @SerializedName("part_name")
-    val partName: String,
+    @SerializedName("obs_time")
+    val obsTime: Int,
     @SerializedName("polar")
     val polar: Boolean,
-    @SerializedName("prec_mm")
-    val precMm: Double,
-    @SerializedName("prec_period")
-    val precPeriod: Double,
-    @SerializedName("prec_prob")
-    val precProb: Double,
     @SerializedName("pressure_mm")
-    val pressureMm: Double,
+    val pressureMm: Int,
     @SerializedName("pressure_pa")
-    val pressurePa: Double,
-    @SerializedName("temp_avg")
-    val tempAvg: Int,
-    @SerializedName("temp_max")
-    val tempMax: Int,
-    @SerializedName("temp_min")
-    val tempMin: Int,
+    val pressurePa: Int,
+    @SerializedName("season")
+    val season: String,
+    @SerializedName("temp")
+    val temperature: Int,
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("wind_gust")

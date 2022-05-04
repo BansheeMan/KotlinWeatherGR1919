@@ -1,16 +1,17 @@
-package com.example.kotlinweathergr1919.viewmodel
+package com.example.kotlinweathergr1919.viewViewModel.weatherlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kotlinweathergr1919.repository.RepositoryImpl
+import com.example.kotlinweathergr1919.facade.repo.weatherlist.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(
-    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val repository: RepositoryImpl = RepositoryImpl()) : ViewModel() {
+    private val liveData: MutableLiveData<WeatherListState> = MutableLiveData(),
+    private val repository: RepositoryImpl = RepositoryImpl()
+) : ViewModel() {
 
-    fun getData(): LiveData<AppState> {
+    fun getData(): LiveData<WeatherListState> {
         return liveData
     }
 
@@ -18,7 +19,7 @@ class MainViewModel(
     fun getWeatherWorld() = getWeather(false)
 
     private fun getWeather(isRussian: Boolean) {
-        liveData.value = AppState.Loading
+        liveData.value = WeatherListState.Loading
         when ((0..3).random()) {
             in 0..2 -> { outputSuccess(isRussian) }
             3 -> outputError()
@@ -29,15 +30,15 @@ class MainViewModel(
         sleep(1000)
         liveData.postValue(
             if (isRussian) {
-                AppState.Success(repository.getRussianWeatherFromLocalStorage())
+                WeatherListState.Success(repository.getRussianWeatherFromLocalStorage())
             } else {
-                AppState.Success(repository.getWorldWeatherFromLocalStorage())
+                WeatherListState.Success(repository.getWorldWeatherFromLocalStorage())
             }
         )
     }.start()
 
     private fun outputError() = Thread {
         sleep(1000)
-        liveData.postValue(AppState.Error(IllegalAccessException()))
+        liveData.postValue(WeatherListState.Error(IllegalAccessException()))
     }.start()
 }

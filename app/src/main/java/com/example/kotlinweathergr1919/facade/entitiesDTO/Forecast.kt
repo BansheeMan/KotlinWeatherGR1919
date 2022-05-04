@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.repository.entitiesDTO
+package com.example.kotlinweathergr1919.facade.entitiesDTO
 
 
 import android.os.Parcelable

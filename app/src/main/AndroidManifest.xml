@@ -13,7 +13,7 @@
         android:networkSecurityConfig="@xml/security_settings_http"
         android:theme="@style/Theme.KotlinWeatherGR1919">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".viewViewModel.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".view.details.DetailsService"/>
+        <service android:name=".viewViewModel.details.DetailsService"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.view.weatherlist
+package com.example.kotlinweathergr1919.viewViewModel.weatherlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,11 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentWeatherListBinding
-import com.example.kotlinweathergr1919.repository.entities.Weather
+import com.example.kotlinweathergr1919.facade.entities.Weather
 import com.example.kotlinweathergr1919.utils.KEY_BUNDLE_WEATHER
-import com.example.kotlinweathergr1919.view.details.DetailsFragment
-import com.example.kotlinweathergr1919.viewmodel.AppState
-import com.example.kotlinweathergr1919.viewmodel.MainViewModel
+import com.example.kotlinweathergr1919.viewViewModel.details.DetailsFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 
@@ -48,7 +46,7 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val observer = Observer<AppState> { data -> renderData(data) }
+        val observer = Observer<WeatherListState> { data -> renderData(data) }
         viewModel.getData().observe(viewLifecycleOwner, observer)
         setFAB()
         viewModel.getWeatherRussia()
@@ -81,18 +79,18 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
         }
     }
 
-    private fun renderData(data: AppState) {
+    private fun renderData(data: WeatherListState) {
         when (data) {
-            is AppState.Error -> {
+            is WeatherListState.Error -> {
                 val trouble = data.error.stackTraceToString()
                 loadingLayout.showSnackBar(trouble, R.string.reload) {
                     setReloadContent(isRussian)
                 }
             }
-            is AppState.Loading -> {
+            is WeatherListState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
-            is AppState.Success -> {
+            is WeatherListState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setData(data.weatherData)
             }

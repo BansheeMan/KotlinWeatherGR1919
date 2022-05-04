@@ -1,10 +1,11 @@
-package com.example.kotlinweathergr1919.viewmodel
+package com.example.kotlinweathergr1919.viewViewModel.details
 
 import com.example.kotlinweathergr1919.R.string.forbidden_try_tomorrow
-import com.example.kotlinweathergr1919.repository.entitiesDTO.WeatherDTO
+import com.example.kotlinweathergr1919.facade.entities.Weather
 
 sealed class ResponseState {
-    data class Success(val weatherDTO: WeatherDTO) : ResponseState()
+    data class Success(val weather: Weather) : ResponseState()
+    object Loading : ResponseState()
     data class Errors(
         val responseCode: Int = 0,
         val responseMessage: String = "Unknown Error"

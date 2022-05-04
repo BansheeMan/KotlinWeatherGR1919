@@ -1,10 +1,10 @@
-package com.example.kotlinweathergr1919.view.details
+package com.example.kotlinweathergr1919.viewViewModel.details
 
 import android.app.IntentService
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.kotlinweathergr1919.BuildConfig
-import com.example.kotlinweathergr1919.repository.entitiesDTO.WeatherDTO
+import com.example.kotlinweathergr1919.facade.entitiesDTO.WeatherDTO
 import com.example.kotlinweathergr1919.utils.*
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException

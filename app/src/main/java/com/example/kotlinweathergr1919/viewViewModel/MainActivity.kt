@@ -1,9 +1,9 @@
-package com.example.kotlinweathergr1919.view
+package com.example.kotlinweathergr1919.viewViewModel
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinweathergr1919.databinding.ActivityMainBinding
-import com.example.kotlinweathergr1919.view.weatherlist.WeatherListFragment
+import com.example.kotlinweathergr1919.viewViewModel.weatherlist.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {
 
