@@ -24,6 +24,13 @@ const val KEY_BUNDLE_SERVICE_BROADCAST_ERROR_RAN_OUT_OF_REQUEST =
     "KEY_BUNDLE_SERVICE_BROADCAST_ERROR_RAN_OUT_OF_REQUEST"
 const val KEY_BUNDLE_SERVICE_BROADCAST_ERROR_OTHER = "KEY_BUNDLE_SERVICE_BROADCAST_ERROR_OTHER"
 
+const val  WEATHER_ICON = "https://yastatic.net/weather/i/icons/blueye/color/svg/"
+const val  SVG = ".svg"
+const val CITY_ICON = "https://freepngimg.com/thumb/city/36275-3-city-hd.png"
+const val BRUCE_LEE_IMAGE = "https://pngimg.com/uploads/bruce_lee/bruce_lee_PNG44.png"
+const val SNOOP_DOG = "https://pngimg.com/uploads/snoop_dogg/snoop_dogg_PNG51.png"
+
+
 fun convertDTOtoModel(weatherDTO: WeatherDTO): Weather {
     val fact: Fact = weatherDTO.fact
     return (Weather(getDefaultCity(), fact.temperature, fact.feelsLike))

@@ -50,7 +50,6 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
         viewModel.getData().observe(viewLifecycleOwner, observer)
         setFAB()
         viewModel.getWeatherRussia()
-
     }
 
     private fun setFAB() {
@@ -127,7 +126,6 @@ fun View.showSnackBar(text: String?, actionText: Int, action: (View) -> Unit) {
 fun Snackbar.action(action: Int, color: Int, listener: (View) -> Unit) {
     setActionTextColor(ContextCompat.getColor(context, color))
     setAction(action, listener)
-
 }
 
 

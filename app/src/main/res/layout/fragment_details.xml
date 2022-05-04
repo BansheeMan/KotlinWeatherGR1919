@@ -9,18 +9,53 @@
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/teal_700">
+        android:background="@color/teal_700"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/headerCityIcon"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerCityIcon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/otherImage1"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/otherImage2"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/city_name_margin_top"
-            android:textSize="35sp"
+            android:textSize="@dimen/cityNameDFsize"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon"
             tools:text="Минск" />
 
         <TextView
@@ -104,8 +139,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:background="@color/teal_700"
-        tools:visibility="visible"
-        >
+        tools:visibility="gone">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
