@@ -29,7 +29,7 @@ class DetailsService(val name: String = "") : IntentService(name) {
                 (uri.openConnection() as HttpURLConnection).apply {
                     connectTimeout = 1000
                     readTimeout = 1000
-                    addRequestProperty(YANDEX_WEATHER_API, BuildConfig.WEATHER_API_KEY)
+                    addRequestProperty(YANDEX_API_KEY, BuildConfig.WEATHER_API_KEY)
                 }
             try {
                 val responseCode = urlConnection.responseCode

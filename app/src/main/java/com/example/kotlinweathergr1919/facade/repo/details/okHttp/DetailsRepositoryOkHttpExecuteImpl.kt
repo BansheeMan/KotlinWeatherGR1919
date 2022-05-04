@@ -1,8 +1,9 @@
-package com.example.kotlinweathergr1919.facade.repo.details
+package com.example.kotlinweathergr1919.facade.repo.details.okHttp
 
 import com.example.kotlinweathergr1919.BuildConfig
 import com.example.kotlinweathergr1919.facade.entities.City
 import com.example.kotlinweathergr1919.facade.entitiesDTO.WeatherDTO
+import com.example.kotlinweathergr1919.facade.repo.details.DetailsRepository
 import com.example.kotlinweathergr1919.utils.*
 import com.example.kotlinweathergr1919.viewViewModel.details.OnServersResponse
 import com.example.kotlinweathergr1919.viewViewModel.details.ResponseState
@@ -15,8 +16,8 @@ class DetailsRepositoryOkHttpExecuteImpl : DetailsRepository {
     override fun getWeatherDetails(city: City, onServersResponse: OnServersResponse) {
         val client = OkHttpClient()
         val builder = Request.Builder().apply {
-            addHeader(YANDEX_WEATHER_API, BuildConfig.WEATHER_API_KEY)
-            url("$SERVER_ANDREY$YANDEX_ENDPOINT$LAT${city.lat}&$LON${city.lon}")
+            addHeader(YANDEX_API_KEY, BuildConfig.WEATHER_API_KEY)
+            url("$SERVER_ANDREY$YANDEX_ENDPOINT$LAT=${city.lat}&$LON=${city.lon}")
         }
         val request = builder.build()
         val call = client.newCall(request)

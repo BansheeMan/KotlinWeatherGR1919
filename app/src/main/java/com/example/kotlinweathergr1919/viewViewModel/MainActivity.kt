@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             supportFragmentManager.beginTransaction()
                 .replace(binding.root.id, WeatherListFragment.newInstance()).commit()
     }
