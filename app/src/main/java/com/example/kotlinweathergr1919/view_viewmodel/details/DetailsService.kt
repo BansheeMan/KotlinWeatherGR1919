@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.viewViewModel.details
+package com.example.kotlinweathergr1919.view_viewmodel.details
 
 import android.app.IntentService
 import android.content.Intent

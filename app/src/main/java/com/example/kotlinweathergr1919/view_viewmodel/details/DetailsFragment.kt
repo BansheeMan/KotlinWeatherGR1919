@@ -1,21 +1,17 @@
-package com.example.kotlinweathergr1919.viewViewModel.details
+package com.example.kotlinweathergr1919.view_viewmodel.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import coil.ImageLoader
-import coil.decode.SvgDecoder
 import coil.load
-import coil.request.ImageRequest
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentDetailsBinding
 import com.example.kotlinweathergr1919.facade.entities.Weather
 import com.example.kotlinweathergr1919.utils.*
-import com.example.kotlinweathergr1919.viewViewModel.weatherlist.showSnackBar
+import com.example.kotlinweathergr1919.view_viewmodel.weatherlist.showSnackBar
 import kotlinx.android.synthetic.main.fragment_details.*
 
 class DetailsFragment : Fragment(), OnServersResponse {
@@ -100,7 +96,7 @@ class DetailsFragment : Fragment(), OnServersResponse {
             when (responseCode) {
                 in 400..499 -> cityName.text = getString(R.string.client_error)
                 in 500..599 -> cityName.text = getString(R.string.server_error)
-                else -> cityName.text = getString(R.string.server_error)
+                else -> cityName.text = getString(R.string.unknown_error)
             }
             temperatureValue.text = getString(R.string.sad_man)
             feelsLikeValue.text = getString(R.string.don_not_know)
@@ -126,18 +122,6 @@ class DetailsFragment : Fragment(), OnServersResponse {
         otherImage2.load(BRUCE_LEE_IMAGE)
     }
 
-    private fun ImageView.loadSvg(url: String) {
-        val imageLoader = ImageLoader.Builder(this.context)
-            .componentRegistry { add(SvgDecoder(this@loadSvg.context)) }
-            .build()
-        val request = ImageRequest.Builder(this.context)
-            .crossfade(true)
-            .crossfade(500)
-            .data(url)
-            .target(this)
-            .build()
-        imageLoader.enqueue(request)
-    }
 
     override fun onDestroy() {
         super.onDestroy()

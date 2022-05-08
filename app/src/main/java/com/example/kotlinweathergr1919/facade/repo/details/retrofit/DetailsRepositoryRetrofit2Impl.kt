@@ -1,28 +1,22 @@
 package com.example.kotlinweathergr1919.facade.repo.details.retrofit
 
 import com.example.kotlinweathergr1919.BuildConfig
+import com.example.kotlinweathergr1919.MyApp.Companion.weatherAPI
 import com.example.kotlinweathergr1919.facade.entities.City
 import com.example.kotlinweathergr1919.facade.entitiesDTO.WeatherDTO
 import com.example.kotlinweathergr1919.facade.repo.details.DetailsRepository
-import com.example.kotlinweathergr1919.utils.YANDEX_DOMAIN
 import com.example.kotlinweathergr1919.utils.convertDTOtoModel
-import com.example.kotlinweathergr1919.viewViewModel.details.OnServersResponse
-import com.example.kotlinweathergr1919.viewViewModel.details.ResponseState
-import com.google.gson.GsonBuilder
+import com.example.kotlinweathergr1919.view_viewmodel.details.OnServersResponse
+import com.example.kotlinweathergr1919.view_viewmodel.details.ResponseState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class DetailsRepositoryRetrofit2Impl : DetailsRepository {
     override fun getWeatherDetails(city: City, onServersResponse: OnServersResponse) {
-        val weatherAPI = Retrofit.Builder().apply {
-            baseUrl(YANDEX_DOMAIN)
-            addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-        }.build().create(WeatherAPI::class.java)
         // val response = weatherAPI.getWeather(BuildConfig.WEATHER_API_KEY,city.lat,city.lon).execute() можно так     СИНХРОННО!!!
+
         weatherAPI.getWeather(BuildConfig.WEATHER_API_KEY, city.lat, city.lon)
             .enqueue(object :
                 Callback<WeatherDTO> {                                                                 // АСИНХРОННО!!!

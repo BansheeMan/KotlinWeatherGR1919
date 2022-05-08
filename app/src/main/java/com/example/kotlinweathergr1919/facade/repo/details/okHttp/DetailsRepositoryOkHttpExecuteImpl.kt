@@ -5,8 +5,8 @@ import com.example.kotlinweathergr1919.facade.entities.City
 import com.example.kotlinweathergr1919.facade.entitiesDTO.WeatherDTO
 import com.example.kotlinweathergr1919.facade.repo.details.DetailsRepository
 import com.example.kotlinweathergr1919.utils.*
-import com.example.kotlinweathergr1919.viewViewModel.details.OnServersResponse
-import com.example.kotlinweathergr1919.viewViewModel.details.ResponseState
+import com.example.kotlinweathergr1919.view_viewmodel.details.OnServersResponse
+import com.example.kotlinweathergr1919.view_viewmodel.details.ResponseState
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import okhttp3.OkHttpClient

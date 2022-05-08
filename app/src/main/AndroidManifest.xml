@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +14,7 @@
         android:networkSecurityConfig="@xml/security_settings_http"
         android:theme="@style/Theme.KotlinWeatherGR1919">
         <activity
-            android:name=".viewViewModel.MainActivity"
+            android:name=".view_viewmodel.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".viewViewModel.details.DetailsService"/>
+        <service android:name=".view_viewmodel.details.DetailsService"/>
     </application>
 
 </manifest>

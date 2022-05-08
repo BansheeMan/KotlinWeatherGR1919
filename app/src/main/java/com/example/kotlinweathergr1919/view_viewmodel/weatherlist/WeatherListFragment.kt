@@ -1,5 +1,7 @@
-package com.example.kotlinweathergr1919.viewViewModel.weatherlist
+package com.example.kotlinweathergr1919.view_viewmodel.weatherlist
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +14,23 @@ import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.databinding.FragmentWeatherListBinding
 import com.example.kotlinweathergr1919.facade.entities.Weather
 import com.example.kotlinweathergr1919.utils.KEY_BUNDLE_WEATHER
-import com.example.kotlinweathergr1919.viewViewModel.details.DetailsFragment
+import com.example.kotlinweathergr1919.utils.KEY_FAB_WEATHER_LIST
+import com.example.kotlinweathergr1919.utils.KEY_SHARED_PREFERENCE
+import com.example.kotlinweathergr1919.view_viewmodel.details.DetailsFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 
 class WeatherListFragment : Fragment(), OnItemListClickListener {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: WeatherListViewModel
     private var _binding: FragmentWeatherListBinding? = null
     private val binding: FragmentWeatherListBinding
         get() {
             return _binding!!
         }
-    private var isRussian = true
-
-
+    private var isRussian: Boolean = true
     private val adapter = WeatherListAdapter(this)
+    private lateinit var sp: SharedPreferences
 
     override fun onDestroy() {
         super.onDestroy()
@@ -45,16 +48,23 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(WeatherListViewModel::class.java)
         val observer = Observer<WeatherListState> { data -> renderData(data) }
         viewModel.getData().observe(viewLifecycleOwner, observer)
         setFAB()
-        viewModel.getWeatherRussia()
+        sp = requireActivity().getSharedPreferences(KEY_SHARED_PREFERENCE, MODE_PRIVATE)
+        isRussian = sp.getBoolean(KEY_FAB_WEATHER_LIST, true)
+        setReloadContent(isRussian)
     }
 
     private fun setFAB() {
         binding.floatingActionButton.setOnClickListener {
-            isRussian = !isRussian.also { setReloadContent(it) }
+            isRussian = !isRussian
+            setReloadContent(isRussian)
+            sp.edit()?.run {
+                putBoolean(KEY_FAB_WEATHER_LIST, isRussian)
+                apply()
+            }
         }
     }
 

@@ -18,6 +18,8 @@
     <string name="yandex_api">X-Yandex-API-Key</string>
     <string name="sad_man">Oops…!!! =(((((</string>
     <string name="don_not_know">¯\_(ツ)_/¯</string>
+    <string name="lt_ln">lt/ln:</string>
+    <string name="history">HISTORY</string>
 
 
 </resources>

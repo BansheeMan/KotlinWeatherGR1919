@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.viewViewModel.details
+package com.example.kotlinweathergr1919.view_viewmodel.details
 
 import com.example.kotlinweathergr1919.R.string.forbidden_try_tomorrow
 import com.example.kotlinweathergr1919.facade.entities.Weather

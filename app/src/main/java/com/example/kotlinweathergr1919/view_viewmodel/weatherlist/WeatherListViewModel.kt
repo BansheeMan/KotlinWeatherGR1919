@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.viewViewModel.weatherlist
+package com.example.kotlinweathergr1919.view_viewmodel.weatherlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlinweathergr1919.facade.repo.weatherlist.RepositoryImpl
 import java.lang.Thread.sleep
 
-class MainViewModel(
+class WeatherListViewModel(
     private val liveData: MutableLiveData<WeatherListState> = MutableLiveData(),
     private val repository: RepositoryImpl = RepositoryImpl()
 ) : ViewModel() {
@@ -22,7 +22,7 @@ class MainViewModel(
         liveData.value = WeatherListState.Loading
         when ((0..3).random()) {
             in 0..2 -> { outputSuccess(isRussian) }
-            3 -> outputError()
+            3 ->  outputSuccess(isRussian)
         }
     }
 
