@@ -45,7 +45,6 @@ class HistoryWeatherListAdapter(
                         " ${String.format("%.5f", weather.city.lon)}"
 
                 tvIcon.loadSvg("$WEATHER_ICON${weather.icon}$SVG")
-                //TODO уточнить у Андрея принцип загрузки и как сохранять и доставать локально картинки
             }
         }
     }

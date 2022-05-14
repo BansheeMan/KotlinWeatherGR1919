@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinweathergr1919.facade.entities.City
@@ -25,7 +24,7 @@ class DetailsViewModel(
     fun getLiveData() = liveData
     fun getWeather(city: City) {
         liveData.postValue(ResponseState.Loading)
-        repository = if(isInternet) {
+        repository = if (isInternet) {
             DetailsRepositoryRetrofit2Impl()
 
         } else {
@@ -35,8 +34,8 @@ class DetailsViewModel(
         repository.getWeatherDetails(city, object : OnServersResponse {
             override fun onResponse(responseState: ResponseState) {
                 liveData.postValue(responseState)
-                if(isInternet){
-                    if(responseState is Success) {
+                if (isInternet) {
+                    if (responseState is Success) {
                         repositoryAdd.addWeather(responseState.weather)
                     }
                 }
@@ -46,9 +45,10 @@ class DetailsViewModel(
 }
 
 private var isInternet = false
-var networkState : BroadcastReceiver = object : BroadcastReceiver() {
+var networkState: BroadcastReceiver = object : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)
+        val noConnectivity =
+            intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false)
         isInternet = !noConnectivity
         Log.d("@@@", "isInternet $isInternet")
     }

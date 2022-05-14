@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_work_with_content_provider"
+        android:title="@string/work_with_content_provider"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_history"
         android:title="history"
         android:icon="@drawable/ic_history"
         app:showAsAction="always" />
+
 </menu>

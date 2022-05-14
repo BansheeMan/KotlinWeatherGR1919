@@ -20,6 +20,12 @@
     <string name="don_not_know">¯\_(ツ)_/¯</string>
     <string name="lt_ln">lt/ln:</string>
     <string name="history">HISTORY</string>
+    <string name="work_with_content_provider">HW9</string>
+    <string name="contacts_access">Доступ к контактам</string>
+    <string name="very_need">Очень надо, ну по-братски</string>
+    <string name="get_access">Предоставить доступ</string>
+    <string name="cancel">Не надо</string>
+    <string name="getContacts">getContacts</string>
 
 
 </resources>
