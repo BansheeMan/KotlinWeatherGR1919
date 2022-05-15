@@ -8,4 +8,6 @@
     <dimen name="margin_5_dp">5dp</dimen>
     <dimen name="snack_width">1500dp</dimen>
     <dimen name="cityNameDFsize">35sp</dimen>
+    <dimen name="margin_fab">20dp</dimen>
+    <dimen name="max_size_fab">60dp</dimen>
 </resources>

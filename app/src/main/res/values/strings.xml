@@ -26,6 +26,17 @@
     <string name="get_access">Предоставить доступ</string>
     <string name="cancel">Не надо</string>
     <string name="getContacts">getContacts</string>
+    <string name="dialog_rationale_title">I want geolocation</string>
+    <string name="dialog_rationale_message">very need, pleeeease</string>
+    <string name="dialog_rationale_give_access">let it be</string>
+    <string name="dialog_rationale_decline">don\'t even beg</string>
+    <string name="dialog_address_title">Your position</string>
+    <string name="dialog_address_get_weather">Check the weather </string>
+    <string name="google_maps">google_maps</string>
+    <string name="history_request">history</string>
+    <string name="SEARCH">SEARCH</string>
+    <string name="write_address">Введите адрес</string>
+    <string name="unkown_location">Unkown location</string>
 
 
 </resources>

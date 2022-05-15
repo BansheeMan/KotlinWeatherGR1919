@@ -48,6 +48,10 @@ class MainActivity : AppCompatActivity() {
                     .add(R.id.container, WorkWithContentProviderFragment.newInstance())
                     .addToBackStack("").commit()
             }
+            R.id.action_menu_google_maps -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, MapsFragment.newInstance()).addToBackStack("").commit()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

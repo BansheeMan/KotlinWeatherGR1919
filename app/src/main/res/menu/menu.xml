@@ -5,12 +5,18 @@
     <item
         android:id="@+id/action_work_with_content_provider"
         android:title="@string/work_with_content_provider"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_history"
-        android:title="history"
+        android:title="@string/history_request"
         android:icon="@drawable/ic_history"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_menu_google_maps"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/google_maps"
         app:showAsAction="always" />
 
 </menu>

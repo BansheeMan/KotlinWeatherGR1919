@@ -23,13 +23,23 @@
         android:src="@drawable/ic_russia"
         android:contentDescription="@string/setup_location" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mainFragmentFABLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_fab"
+        android:layout_gravity="center_horizontal|bottom"
+        android:backgroundTint="@color/yellow"
+        android:src="@android:drawable/ic_dialog_map"
+        app:maxImageSize="@dimen/max_size_fab" />
+
     <FrameLayout
         android:id="@+id/loadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/teal_700"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="invisible">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

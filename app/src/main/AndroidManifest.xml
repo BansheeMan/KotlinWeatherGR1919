@@ -4,17 +4,24 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/security_settings_http"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/security_settings_http"
         android:theme="@style/Theme.KotlinWeatherGR1919">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAtN6l-DtVcoXN4-rGkW_ojJYIPq1Vs6vU" />
+
         <activity
             android:name=".view_viewmodel.MainActivity"
             android:exported="true">
@@ -25,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".view_viewmodel.details.DetailsService"/>
+        <service android:name=".view_viewmodel.details.DetailsService" />
     </application>
 
 </manifest>
