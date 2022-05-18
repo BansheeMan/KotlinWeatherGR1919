@@ -37,6 +37,11 @@
     <string name="SEARCH">SEARCH</string>
     <string name="write_address">Введите адрес</string>
     <string name="unkown_location">Unkown location</string>
+    <string name="check_inet">Сheck your internet connection</string>
+    <string name="nothing_found">Nothing found for this query</string>
+    <string name="enter_value">Please enter a valid location</string>
+    <string name="name_number">%1$s : %2$s</string>
+    <string name="hand_permission">Последний шанс и будешь выдавать разрешение руками</string>
 
 
 </resources>

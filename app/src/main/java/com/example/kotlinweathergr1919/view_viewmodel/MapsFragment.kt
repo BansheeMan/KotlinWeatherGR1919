@@ -25,6 +25,7 @@ import java.util.*
 
 class MapsFragment : Fragment() {
 
+
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         val sydney = LatLng(-34.0, 151.0)
@@ -39,31 +40,40 @@ class MapsFragment : Fragment() {
         map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = true
         map.isMyLocationEnabled = true
+        map.uiSettings.isMyLocationButtonEnabled = true
+
     }
 
     private fun getWeatherOnClick() {
         map.setOnMapClickListener {
-            val weather = Weather(city = City(getAddressByLocation(it), it.latitude, it.longitude))
-            requireActivity().supportFragmentManager.beginTransaction().add(
-                R.id.container,
-                DetailsFragment.newInstance(Bundle().apply {
-                    putParcelable(KEY_BUNDLE_WEATHER, weather)
-                })
-            ).addToBackStack("").commit()
+            try {
+                val weather =
+                    Weather(city = City(getAddressByLocation(it), it.latitude, it.longitude))
+                requireActivity().supportFragmentManager.beginTransaction().add(
+                    R.id.container,
+                    DetailsFragment.newInstance(Bundle().apply {
+                        putParcelable(KEY_BUNDLE_WEATHER, weather)
+                    })
+                ).addToBackStack("").commit()
+            } catch (e: IOException) {
+                Toast.makeText(requireContext(), getString(R.string.check_inet), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
     private fun getAddressByLocation(location: LatLng): String {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        val addsText: String = try {    //если не можеи получить название места, называем его НЕИЗВЕСТНЫМ!!!   - Сэр Фрэнсис Дрейк
-            geocoder.getFromLocation(
-                location.latitude,
-                location.longitude,
-                1000000
-            )[0].getAddressLine(0)
-        } catch (e : IndexOutOfBoundsException) {
-            getString(R.string.unkown_location)
-        } 
+        val addsText: String =
+            try {    //если не можеи получить название места, называем его НЕИЗВЕСТНЫМ!!!   - Сэр Фрэнсис Дрейк
+                geocoder.getFromLocation(
+                    location.latitude,
+                    location.longitude,
+                    1000000
+                )[0].getAddressLine(0)
+            } catch (e: IndexOutOfBoundsException) {
+                getString(R.string.unkown_location)
+            }
         return addsText
 
     }
@@ -155,13 +165,13 @@ class MapsFragment : Fragment() {
             } catch (e: IOException) { //НИЧЕГО НЕ ВВОДИМ
                 Toast.makeText(
                     requireContext(),
-                    "Please enter a valid location",
+                    getString(R.string.enter_value),
                     Toast.LENGTH_SHORT
                 ).show()
             } catch (e: IndexOutOfBoundsException) { //ВВОДИМ ЕРУНДУ ВСЯКУЮ
                 Toast.makeText(
                     requireContext(),
-                    "Please enter a valid location",
+                    getString(R.string.nothing_found),
                     Toast.LENGTH_SHORT
                 ).show()
             }

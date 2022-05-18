@@ -31,6 +31,7 @@ import com.example.kotlinweathergr1919.utils.KEY_SHARED_PREFERENCE
 import com.example.kotlinweathergr1919.view_viewmodel.details.DetailsFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_weather_list.*
+import java.io.IOException
 
 class WeatherListFragment : Fragment(), OnItemListClickListener {
 
@@ -84,7 +85,7 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 getLocation()
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
                 // важно написать убедительную просьбу
                 explain()
             }
@@ -108,16 +109,18 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
 
     private fun mRequestPermission() {
         requestPermissions(
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE
+        )
     }
 
     @SuppressLint("MissingPermission") //чтобы лишнюю проверку не писать
-    private fun getLocation(){
+    private fun getLocation() {
         context?.let {
             val locationManager = it.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                val providerGPS = locationManager.getProvider(LocationManager.GPS_PROVIDER) // можно юзать BestProvider
-                providerGPS?.let{                                                          //аналогично можно добавить еще слушатель чтобы и по таймингам ловить
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                val providerGPS =
+                    locationManager.getProvider(LocationManager.GPS_PROVIDER) // можно юзать BestProvider
+                providerGPS?.let {                                                          //аналогично можно добавить еще слушатель чтобы и по таймингам ловить
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         0,
@@ -129,33 +132,50 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
         }
     }
 
-    private val locationListenerDistance = object : LocationListener{
+    private val locationListenerDistance = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            Log.d("@@@",location.toString())
+            Log.d("@@@", location.toString())
             getAddressByLocation(location)
         }
+
+        override fun onProviderEnabled(provider: String) {
+            super.onProviderEnabled(provider)
+            Toast.makeText(requireContext(), "Gps Enabled", Toast.LENGTH_SHORT).show()
+            Log.d("@@@", "onProviderEnabled")
+        }
+
         override fun onProviderDisabled(provider: String) {
             super.onProviderDisabled(provider)
-            Toast.makeText( requireContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
-            Log.d("@@@","onProviderDisabled")
+            Toast.makeText(requireContext(), "Gps Disabled", Toast.LENGTH_SHORT).show()
+            Log.d("@@@", "onProviderDisabled")
         }
-        override fun onProviderEnabled(provider: String) {
-            Toast.makeText( requireContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
-            Log.d("@@@","onProviderEnabled")
-        }
-
     }
 
-    private fun getAddressByLocation(location: Location){
+    private fun getAddressByLocation(location: Location) {
         val geocoder = Geocoder(requireContext())
         val timeStump = System.currentTimeMillis()
-        Thread{
-            val addressText = geocoder.getFromLocation(location.latitude,location.longitude,1000000)[0].adminArea //вместо adminArea можно другое из достпуных значенией поставить
-            requireActivity().runOnUiThread {
-                showAddressDialog(addressText,location)
+        Thread {
+            try {
+                val addressText = geocoder.getFromLocation(
+                    location.latitude,
+                    location.longitude,
+                    1000000
+                )[0].adminArea //вместо adminArea можно другое из достпуных значенией поставить
+                requireActivity().runOnUiThread {
+                    showAddressDialog(addressText, location)
+                }
+            } catch (e: IOException) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.check_inet),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }.start()
-        Log.d("@@@"," ПРОШЛО  ${System.currentTimeMillis() - timeStump}")
+        Log.d("@@@", " ПРОШЛО  ${System.currentTimeMillis() - timeStump}")
+
     }
 
     private fun setFABCities() {
@@ -210,7 +230,7 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
     companion object {
         @JvmStatic
         fun newInstance() = WeatherListFragment()
-        private const val REQUEST_CODE = 998
+        const val REQUEST_CODE = 998
     }
 
     override fun onItemClick(weather: Weather) {
@@ -256,7 +276,6 @@ fun View.showSnackBar(text: String?, actionText: Int, action: (View) -> Unit) {
         }
     }
 }
-
 
 
 fun Snackbar.action(action: Int, color: Int, listener: (View) -> Unit) {

@@ -1,11 +1,15 @@
 package com.example.kotlinweathergr1919.view_viewmodel
 
+import android.Manifest
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.kotlinweathergr1919.MyApp
 import com.example.kotlinweathergr1919.R
 import com.example.kotlinweathergr1919.content_provider_hw9.WorkWithContentProviderFragment
@@ -49,11 +53,46 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack("").commit()
             }
             R.id.action_menu_google_maps -> {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.container, MapsFragment.newInstance()).addToBackStack("").commit()
+                checkPermissionLocation()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun checkPermissionLocation() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, MapsFragment.newInstance()).addToBackStack("").commit()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                explain()
+            }
+            else -> {
+                mRequestPermission()
+            }
+        }
+    }
+
+    private fun explain() {
+        AlertDialog.Builder(this)
+            .setTitle(resources.getString(R.string.dialog_rationale_title))
+            .setMessage(resources.getString(R.string.dialog_rationale_message))
+            .setPositiveButton(resources.getString(R.string.dialog_rationale_give_access)) { _, _ ->
+                mRequestPermission()
+            }
+            .setNegativeButton(getString(R.string.dialog_rationale_decline)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun mRequestPermission() {
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), WeatherListFragment.REQUEST_CODE
+        )
     }
 
     override fun onDestroy() {
