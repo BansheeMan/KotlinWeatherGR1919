@@ -28,3 +28,8 @@ const val CITY_ICON = "https://freepngimg.com/thumb/city/36275-3-city-hd.png"
 const val BRUCE_LEE_IMAGE = "https://pngimg.com/uploads/bruce_lee/bruce_lee_PNG44.png"
 const val SNOOP_DOG = "https://pngimg.com/uploads/snoop_dogg/snoop_dogg_PNG51.png"
 
+//Notification
+const val NOTIFICATION_ID_LOW = 1
+const val NOTIFICATION_ID_HIGH = 2
+const val CHANNEL_ID_LOW = "channel_id_1"
+const val CHANNEL_ID_HIGH = "channel_id_2"

@@ -42,6 +42,10 @@
     <string name="enter_value">Please enter a valid location</string>
     <string name="name_number">%1$s : %2$s</string>
     <string name="hand_permission">Последний шанс и будешь выдавать разрешение руками</string>
+    <string name="title_low">TITTLE LOW</string>
+    <string name="text_low">TEXT LOW</string>
+    <string name="title_high">TITLE HIGH</string>
+    <string name="text_high">TEXT HIGH</string>
 
 
 </resources>
