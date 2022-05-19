@@ -1,4 +1,4 @@
-package com.example.kotlinweathergr1919.content_provider_hw9
+package com.example.kotlinweathergr1919.another_content_provider_hw9
 
 import android.Manifest
 import android.app.AlertDialog

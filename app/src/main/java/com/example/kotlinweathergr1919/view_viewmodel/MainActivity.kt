@@ -1,31 +1,25 @@
 package com.example.kotlinweathergr1919.view_viewmodel
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.kotlinweathergr1919.MyApp
 import com.example.kotlinweathergr1919.R
-import com.example.kotlinweathergr1919.content_provider_hw9.WorkWithContentProviderFragment
+import com.example.kotlinweathergr1919.another_content_provider_hw9.WorkWithContentProviderFragment
 import com.example.kotlinweathergr1919.databinding.ActivityMainBinding
-import com.example.kotlinweathergr1919.utils.CHANNEL_ID_HIGH
-import com.example.kotlinweathergr1919.utils.CHANNEL_ID_LOW
-import com.example.kotlinweathergr1919.utils.NOTIFICATION_ID_HIGH
-import com.example.kotlinweathergr1919.utils.NOTIFICATION_ID_LOW
 import com.example.kotlinweathergr1919.view_viewmodel.details.networkState
 import com.example.kotlinweathergr1919.view_viewmodel.historylist.HistoryWeatherListFragment
 import com.example.kotlinweathergr1919.view_viewmodel.weatherlist.WeatherListFragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,66 +37,16 @@ class MainActivity : AppCompatActivity() {
                 .replace(binding.root.id, WeatherListFragment.newInstance()).commit()
         Thread { MyApp.getHistoryDao().getAll() }.start()
 
-        push()
-    }
-
-    private fun push() {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val notificationBuilderLow = NotificationCompat.Builder(this, CHANNEL_ID_LOW).apply {
-            setSmallIcon(R.drawable.ic_map_pin)
-            setContentTitle(getString(R.string.title_low))
-            setContentText(getString(R.string.text_low))
-            priority = NotificationManager.IMPORTANCE_LOW
-        }
-
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            val channelNameLow = "Name $CHANNEL_ID_LOW"
-            val channelDescriptionLow = "Description $CHANNEL_ID_LOW"
-            val channelPriorityLow = NotificationManager.IMPORTANCE_LOW
-            val channelLow = NotificationChannel(CHANNEL_ID_LOW,channelNameLow,channelPriorityLow).apply {
-                description = channelDescriptionLow
+        //ловим созданный ключ
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("@@@", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
             }
-            notificationManager.createNotificationChannel(channelLow)
-        }
-
-        notificationManager.notify(NOTIFICATION_ID_LOW, notificationBuilderLow.build())
-
-        //##########################################################################################
-
-        val notificationBuilderHigh=NotificationCompat.Builder(this, CHANNEL_ID_HIGH).apply {
-            setSmallIcon(R.drawable.ic_map_marker)
-            setContentTitle(getString(R.string.title_high))
-            setContentText(getString(R.string.text_high))
-            priority = NotificationManager.IMPORTANCE_HIGH
-        }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelNameHigh = "Name $CHANNEL_ID_HIGH"
-            val channelDescriptionHigh = "Description $CHANNEL_ID_HIGH"
-            val channelPriorityHigh = NotificationManager.IMPORTANCE_HIGH
-            val channelHigh = NotificationChannel(CHANNEL_ID_HIGH, channelNameHigh, channelPriorityHigh).apply {
-                description = channelDescriptionHigh
-            }
-            notificationManager.createNotificationChannel((channelHigh))
-        }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelNameHigh = "Name2 $CHANNEL_ID_LOW"
-            val channelDescriptionHigh = "Description2 $CHANNEL_ID_HIGH"
-            val channelPriorityHigh = NotificationManager.IMPORTANCE_DEFAULT
-            val channelHigh =
-                NotificationChannel(CHANNEL_ID_LOW, channelNameHigh, channelPriorityHigh).apply {
-                    description = channelDescriptionHigh
-                }
-            notificationManager.createNotificationChannel((channelHigh))
-        }
-
-
-            notificationManager.notify(NOTIFICATION_ID_HIGH, notificationBuilderHigh.build())
+            val token = task.result
+            Log.d("@@@", "$token")
+        })
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
