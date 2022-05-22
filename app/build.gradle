@@ -30,8 +30,24 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        myRelease {
+            Properties properties = new Properties()
+            properties.load(rootProject.file("password.properties").newDataInputStream())
+            def password = properties.getProperty("password")
+            def storageWay = properties.getProperty("storageWay")
+
+
+            storeFile file(storageWay)
+            storePassword = password
+            keyAlias 'kotlin_weather_gold_edition'
+            keyPassword =password
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.myRelease
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -42,6 +58,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        gold_edition {
+            dimension 'version'
+        }
+        standart_edition {
+            dimension 'version'
+        }
     }
 }
 
